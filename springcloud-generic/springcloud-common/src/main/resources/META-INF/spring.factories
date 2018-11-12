@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.mljr.autobots.common.cache.RedisClientAutoConfiguration
+  com.project.spring.cloud.common.cache.RedisClientAutoConfiguration
