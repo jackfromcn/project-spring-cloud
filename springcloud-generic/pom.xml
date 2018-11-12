@@ -13,7 +13,7 @@
     </modules>
     <packaging>pom</packaging>
 
-    <name>spring cloud-generic</name>
-    <description>spring cloud 公用抽象</description>
+    <name>springcloud-generic</name>
+    <description>springcloud 公用抽象</description>
 
 </project>
