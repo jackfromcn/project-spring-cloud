@@ -1,4 +1,11 @@
 spring:
   application:
     name: zuul-gateway
-
+  cloud:
+    config:
+      name: ${spring.application.name}
+      label: master
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-center

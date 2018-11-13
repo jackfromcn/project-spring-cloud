@@ -9,35 +9,6 @@ info:
 #server
 server:
   port: ${server.port}
-#feign
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 3000
-        readTimeout: 60000
-#ribbon
-ribbon:
-  ConnectTimeout: 3000
-  ReadTimeout: 60000
-  MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 0
-  #ReadTimeout: 60000
-  #ConnectTimeout: 60000
-
-#hystrix
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-           thread:
-             timeoutInMilliseconds: 60000
-    lyqc-loan-fws-web:
-      execution:
-        isolation:
-           thread:
-             timeoutInMilliseconds: 60000
 #eureka
 eureka:
   instance:
@@ -73,37 +44,3 @@ javamelody:
     storage-directory: logs/javamelody
     warning-threshold-millis: 200
     severe-threshold-millis: 500
-
-#安全认证 https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-monitoring.html
-management:
-  security:
-    enabled: true
-  info:
-    git:
-      mode: full
-security:
-  user:
-    name: springcloud
-    password: springcloud123456
-  basic:
-    enabled: false
-#endpoints
-endpoints:
-  enabled: false
-  env:
-    enabled: true
-    sensitive:
-  health:
-    enabled: true
-    sensitive: false
-  info:
-    enabled: true
-    sensitive: false
-
-#http://cloud.spring.io/spring-cloud-static/Edgware.RELEASE/single/spring-cloud.html#_router_and_filter_zuul
-zuul:
-  retryable: false
-  add-host-header: true
-  ignored-services: '*'
-  routes:
-    lyqc-loan-fws-web: /lyqcfws/**
