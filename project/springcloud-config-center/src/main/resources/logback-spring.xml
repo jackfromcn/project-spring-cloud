@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="com/util/msf/log/common-log.xml"/>
+
+    <springProperty name="LOG_HOME" source="log.home" defaultValue="logs"/>
+    <springProperty name="APP" source="log.app" defaultValue="ZuulGateway"/>
+    <property name="email_subject" value="ZuulGateway应用告警"/>
+
+    <appender name="DebugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${APP}_debug.log</File>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${COMMON_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/backup/${APP}_debug.%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="InfoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${APP}_info.log</File>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${COMMON_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/backup/${APP}_info.%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="ErrorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_HOME}/${APP}_error.log</File>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${COMMON_LOG_PATTERN}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/backup/${APP}_error.%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="mapper" level="DEBUG"/>
+
+    <logger name="com.util.msf" level="DEBUG"/>
+
+    <logger name="com.project.spring.cloud" level="DEBUG"/>
+
+    <logger name="com.netflix.discovery.shared" level="WARN"/>
+
+    <logger name="org.apache.kafka" level="INFO"/>
+
+    <logger name="org.springframework.cloud.config" level="WARN"/>
+
+    <logger name="org.springframework.boot.context.embedded.tomcat" level="INFO" additivity="false">
+        <appender-ref ref="ConsoleAppender"/>
+        <appender-ref ref="DebugAppender"/>
+        <appender-ref ref="InfoAppender"/>
+        <appender-ref ref="ErrorAppender"/>
+    </logger>
+
+    <springProfile name="prod">
+        <!--运维启动脚本中检测到error字符串会认为应用启动错误，spring中有error处理类导致脚本错误识别-->
+        <logger name="org.springframework" level="INFO" additivity="false">
+            <appender-ref ref="DebugAppender"/>
+            <appender-ref ref="InfoAppender"/>
+            <appender-ref ref="ErrorAppender"/>
+        </logger>
+    </springProfile>
+
+    <root level="INFO">
+        <appender-ref ref="ConsoleAppender"/>
+        <appender-ref ref="DebugAppender"/>
+        <appender-ref ref="InfoAppender"/>
+        <appender-ref ref="ErrorAppender"/>
+    </root>
+
+</configuration>

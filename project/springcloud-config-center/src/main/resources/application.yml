@@ -1,0 +1,36 @@
+spring:
+  jmx:
+    enabled: false
+  mvc:
+      servlet:
+        load-on-startup: 1
+  cloud:
+    config:
+      label: master
+      server:
+        git:
+          uri: https://github.com/jackfromcn/spring-cloud-config.git
+          searchPaths: '*-config'
+          force-pull: true
+          username:
+          password: ''
+          basedir: './webapps/ConfigCenter/temp/'
+#info
+info:
+  app:
+    name: ${spring.application.name}
+    instance: ${eureka.instance.instance-id}
+#security
+management:
+  security:
+    enabled: false
+#eureka
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    fetch-registry: false
+    register-with-eureka: true
+    healthcheck:
+      enabled: true
