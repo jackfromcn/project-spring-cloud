@@ -3,8 +3,14 @@ package com.project.spring.cloud.user.dto;
 import com.util.msf.rpc.common.dto.BaseDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 
+@Accessors(chain=true)
+@NoArgsConstructor
 @Data
+@ToString
 public class UserDto extends BaseDto {
     private Long id;
 
