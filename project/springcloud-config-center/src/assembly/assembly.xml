@@ -11,7 +11,7 @@
     <baseDirectory>/</baseDirectory>
     <files>
         <file>
-            <source>target/config-center.jar</source>
+            <source>target/${project.artifactId}.jar</source>
             <outputDirectory>/</outputDirectory>
         </file>
     </files>

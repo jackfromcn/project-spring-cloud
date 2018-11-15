@@ -34,3 +34,12 @@ eureka:
     register-with-eureka: true
     healthcheck:
       enabled: true
+
+#https://github.com/javamelody/javamelody/wiki/SpringBootStarter
+javamelody:
+  advisor-auto-proxy-creator-enabled: false
+  init-parameters:
+    authorized-users: springcloud:springcloud123456
+    storage-directory: logs/javamelody
+    warning-threshold-millis: 200
+    severe-threshold-millis: 500
