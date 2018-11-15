@@ -17,7 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableZuulProxy
 @EnableFeignClients
 @EnableCircuitBreaker
-@ComponentScan(basePackages = {"com.util.msf"})
+@ComponentScan(basePackages = {"com.util.msf", "com.project.spring.cloud"})
 @Slf4j
 public class ZuulGatewayApplication {
 
