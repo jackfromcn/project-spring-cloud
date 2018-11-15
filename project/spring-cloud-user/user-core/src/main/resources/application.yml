@@ -1,0 +1,113 @@
+#info
+info:
+  app:
+    name: ${spring.application.name}
+    instance: ${eureka.instance.instance-id}
+    department: @department.name@
+    developer: @developer.name@
+#server
+server:
+  port: ${server.port}
+
+#eureka
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+
+#spring
+spring:
+  jmx:
+    enabled: true
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    druid :
+      url: ${jdbc.url}
+      username: ${jdbc.username}
+      password: ${jdbc.password}
+      driver-class-name: com.mysql.jdbc.Driver
+      initial-size : ${jdbc.initialSize}
+      max-active : ${jdbc.maxActive}
+      min-idle : ${jdbc.minIdle}
+      max-wait : 60000
+      pool-prepared-statements : true
+      max-open-prepared-statements: 20
+      validation-query: SELECT 'x'
+      validation-query-timeout: 30000
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 60000
+  sleuth:
+    enabled: true
+    sampler:
+      percentage: 1.0
+    integration:
+      enabled: true
+#  zipkin:
+#      kafka:
+#        topic: user-zipkin
+  #kafka配置
+  kafka:
+    consumer:
+      bootstrap-servers: ${bootstrap.servers}
+      group-id: ${group.id}
+      enable-auto-commit: ${enable.auto.commit}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      poll-timeout: ${session.timeout.ms}
+      concurrency: 3
+    producer:
+      bootstrap-servers: ${bootstrap.servers}
+      acks: ${acks}
+      retries: ${retries}
+      batch-size: ${batch.size}
+      linger-ms: ${linger.ms}
+      buffer-memory: ${buffer.memory}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  #文件上传配置
+  http:
+    multipart:
+      location: /opt/webapps/user/temp/
+      max-file-size: 5MB
+      max-request-size: 10MB
+  #redis配置
+  redis:
+    host: ${redis.host}
+    port: ${redis.port}
+    password: ${redis.password}
+    timeout:  ${redis.timeout}
+    pool:
+      max-idle: ${redis.pool.max-idle}
+      min-idle: ${redis.pool.min-idle}
+      max-active: ${redis.pool.max-active}
+      max-wait: ${redis.pool.max-wait}
+
+#mybatis
+mybatis:
+  mapper-locations: classpath:com/project/spring/cloud/user/mapper/*.xml
+  type-aliases-package: com.project.spring.cloud.user.domain
+  configuration:
+    log-prefix: mapper.
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+#pagehelper
+pagehelper:
+  helper-dialect: mysql
+  support-methods-arguments: true
+
+#https://github.com/javamelody/javamelody/wiki/SpringBootStarter
+javamelody:
+  advisor-auto-proxy-creator-enabled: false
+  init-parameters:
+    authorized-users: springcloud:springcloud123456
+    storage-directory: logs/javamelody
+    warning-threshold-millis: 200
+    severe-threshold-millis: 500
