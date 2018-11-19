@@ -29,4 +29,7 @@ public class UserDto extends BaseDto {
     @ApiModelProperty("邮箱")
     private String email;
 
+    @ApiModelProperty("验签")
+    private String accessToken;
+
 }

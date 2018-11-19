@@ -28,7 +28,7 @@ public class UserValidateFacadeImpl implements UserValidateFacade {
     @Override
     public Result<UserDto> login(@RequestParam("account") String account, @RequestParam("password") String password) {
         UserDto userDto = new UserDto().setId(1L).setName("管理员").setLoginName("管理员1").setMobile("18710081678")
-                .setEmail("spring.cloud@example.com");
+                .setEmail("spring.cloud@example.com").setAccessToken("123456");
         return Result.succeed(userDto);
     }
 
