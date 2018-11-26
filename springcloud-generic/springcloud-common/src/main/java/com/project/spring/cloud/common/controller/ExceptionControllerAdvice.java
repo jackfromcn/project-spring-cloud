@@ -4,6 +4,7 @@ import com.util.msf.core.utils.JsonUtils;
 import com.util.msf.core.utils.T;
 import com.util.msf.core.web.ServletUtils;
 import com.util.msf.log.alarm.Alarmer;
+import com.util.msf.rpc.common.BusinessException;
 import com.util.msf.rpc.common.Result;
 import com.util.msf.rpc.common.ResultCode;
 import org.slf4j.Logger;
@@ -36,6 +37,13 @@ public class ExceptionControllerAdvice {
      */
     public static void setAlarmed(boolean alarmed) {
         ExceptionControllerAdvice.alarmed = alarmed;
+    }
+
+    @ExceptionHandler(value = BusinessException.class)
+    @ResponseBody
+    public Result<T> handleBusinessException(BusinessException exception, HttpServletRequest request) {
+        logger.error("http request BusinessException, uri={}, args={}, remoteIP={}", request.getRequestURI(), JsonUtils.toJson(request.getParameterMap()), ServletUtils.IP(request), exception);
+        return Result.of(exception.getCode(), exception.getMsg());
     }
 
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
