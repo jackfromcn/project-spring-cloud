@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,7 +42,7 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(value = BusinessException.class)
     @ResponseBody
-    public Result<T> handleBusinessException(BusinessException exception, HttpServletRequest request) {
+    public Result<T> handleException(BusinessException exception, HttpServletRequest request) {
         logger.error("http request BusinessException, uri={}, args={}, remoteIP={}", request.getRequestURI(), JsonUtils.toJson(request.getParameterMap()), ServletUtils.IP(request), exception);
         return Result.of(exception.getCode(), exception.getMsg());
     }
@@ -51,6 +52,13 @@ public class ExceptionControllerAdvice {
     public Result<T> handleException(MissingServletRequestParameterException exception, HttpServletRequest request) {
         logger.error("http request MissingServletRequestParameterException, uri={}, args={}, remoteIP={}", request.getRequestURI(), JsonUtils.toJson(request.getParameterMap()), ServletUtils.IP(request), exception);
         return ResultCode.ParamNonExist.result();
+    }
+
+    @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
+    @ResponseBody
+    public Result<T> handleException(MethodArgumentTypeMismatchException exception, HttpServletRequest request) {
+        logger.error("http request MethodArgumentTypeMismatchException, uri={}, args={}, remoteIP={}", request.getRequestURI(), JsonUtils.toJson(request.getParameterMap()), ServletUtils.IP(request), exception);
+        return ResultCode.ParamIllegal.result();
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
