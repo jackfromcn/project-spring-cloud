@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * mvc统一请求异常处理
  *
- * @author iwang
+ * @author wencehng
  */
 @ControllerAdvice
 public class ExceptionControllerAdvice {

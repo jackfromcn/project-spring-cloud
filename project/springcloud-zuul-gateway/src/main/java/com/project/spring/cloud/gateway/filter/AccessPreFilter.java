@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**
- * @author zhaozhenkuan
+ * @author wencheng
  * @ClassName AccessPreFilter
  * @Description zuul过滤器
  * @date 2018-03-22 下午5:16

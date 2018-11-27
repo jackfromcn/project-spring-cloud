@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * @author zhaozhenkuan
+ * @author wencheng
  * @ClassName AccessPostFilter
  * @Description zuul过滤器
  * @date 2018-03-22 下午5:17

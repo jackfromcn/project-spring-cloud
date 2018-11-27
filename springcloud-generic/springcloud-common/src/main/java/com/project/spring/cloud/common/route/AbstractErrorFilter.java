@@ -60,8 +60,10 @@ public abstract class AbstractErrorFilter extends ZuulFilter {
             writer = response.getWriter();
             Throwable t = context.getThrowable() == null ? null : context.getThrowable().getCause();
             if (t != null && t instanceof BusinessException) {
+                log.error("【zuul路由错误处理】- zuul路由发生异常", t);
                 writer.write(JsonUtils.toJson(Result.of((BusinessException) t)));
             } else {
+                log.error("【zuul路由错误处理】- zuul路由发生异常", t);
                 writer.write(JsonUtils.toJson(ResultCode.Exception.result()));
             }
             writer.flush();
