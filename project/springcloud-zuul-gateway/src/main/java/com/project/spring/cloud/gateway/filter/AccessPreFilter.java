@@ -1,12 +1,12 @@
 package com.project.spring.cloud.gateway.filter;
 
+import com.alibaba.fastjson.JSON;
 import com.netflix.zuul.context.RequestContext;
 import com.project.spring.cloud.common.route.AbstractPreFilter;
 import com.project.spring.cloud.gateway.config.properties.LoginValidateProperties;
 import com.project.spring.cloud.gateway.rpc.fegin.UserValidateClient;
 import com.project.spring.cloud.user.utils.UserValidateUtil;
 import com.util.msf.core.helper.WebHelper;
-import com.util.msf.rpc.common.BusinessException;
 import com.util.msf.rpc.common.Result;
 import com.util.msf.rpc.common.ResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,6 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.PathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 /**
  * @author wencheng
@@ -75,18 +74,23 @@ public class AccessPreFilter extends AbstractPreFilter {
         if (loginValidateProperties.isRequired()) {
             String accessToken = UserValidateUtil.getAccessTokenInRequest(request);
             if (StringUtils.isBlank(accessToken)) {
-                throw BusinessException.of(ResultCode.UserNoLogin);
+                context.setSendZuulResponse(false);
+//                context.setResponseStatusCode(401);
+                context.setResponseBody(JSON.toJSONString(ResultCode.UserNoLogin.result()));
+                return null;
             }
             Result<Long> result = userValidateClient.queryUserIdByToken(accessToken);
             if (!result.isSucceed()) {
-                throw BusinessException.of(result.getCode(), result.getMsg());
+                context.setSendZuulResponse(false);
+                context.setResponseStatusCode(result.getCode());
+                context.setResponseBody(JSON.toJSONString(result));
+                return null;
             }
-            WebHelper.init(result.getData());
+            context.addZuulRequestHeader(WebHelper.USER_ID, result.getData().toString());
         } else {
-            WebHelper.init("anonymous", 0L);
+            context.addZuulRequestHeader(WebHelper.USER_ID, "0");
         }
 
-        Optional.ofNullable(WebHelper.getUserId()).ifPresent(userIdOp -> context.addZuulRequestHeader(WebHelper.USER_ID, userIdOp.toString()));
         return null;
     }
 }
