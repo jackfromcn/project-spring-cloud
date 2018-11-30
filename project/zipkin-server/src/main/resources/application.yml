@@ -1,0 +1,31 @@
+server:
+  port: 8103
+spring:
+  application:
+    name: zipkin-server
+  jmx:
+    enabled: true
+  mvc:
+      servlet:
+        load-on-startup: 1
+  profiles:
+    active: shared
+#info
+info:
+  app:
+    name: ${spring.application.name}
+    instance: ${eureka.instance.instance-id}
+#security
+management:
+  security:
+    enabled: false
+#zipkin
+zipkin:
+  collector:
+    kafka:
+      topic: zipkin-sleuth-link-topic
+      group-id: project-zipkin-server
+  storage:
+    type: elasticsearch
+    elasticsearch:
+      index: zipkin-sleuth-link-index

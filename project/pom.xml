@@ -12,6 +12,7 @@
         <module>springcloud-zuul-gateway</module>
         <module>springcloud-config-center</module>
         <module>spring-cloud-user</module>
+        <module>zipkin-server</module>
     </modules>
 
     <name>project</name>

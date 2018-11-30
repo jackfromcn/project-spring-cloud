@@ -23,7 +23,7 @@ public class KafkaTemplateTest {
 
     @Test
     public void send() throws Exception {
-        ListenableFuture listenableFuture = kafkaTemplate.send("ehr-personnel-empHistory", "Hello");
+        ListenableFuture listenableFuture = kafkaTemplate.send("test-topic", "Hello");
         listenableFuture.addCallback(result -> {
             log.info("kafka 消息发送成功, {}", JSON.toJSONString(result));
         }, ex -> {

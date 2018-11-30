@@ -50,9 +50,9 @@ spring:
       percentage: 1.0
     integration:
       enabled: true
-#  zipkin:
-#      kafka:
-#        topic: user-zipkin
+  zipkin:
+      kafka:
+        topic: zipkin-sleuth-link-topic
   #kafka配置
   kafka:
     consumer:
